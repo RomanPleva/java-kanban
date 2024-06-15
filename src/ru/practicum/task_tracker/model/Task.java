@@ -1,16 +1,13 @@
-package model;
+package ru.practicum.task_tracker.model;
 import java.util.Objects;
 
 public class Task {
-
-
-
     private String name;
     private String description;
-    private Status status;
+    private TaskStatus status;
     private int id;
 
-    public Task (String name, String description, Status status) {
+    public Task (String name, String description, TaskStatus status) {
         this.name = name;
         this.description = description;
         this.status = status;
@@ -24,7 +21,7 @@ public class Task {
         this.description = description;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
@@ -44,7 +41,7 @@ public class Task {
         return description;
     }
 
-    public Status getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
@@ -67,8 +64,12 @@ public class Task {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Task task = (Task) o;
         return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
     }
