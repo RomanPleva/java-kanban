@@ -32,17 +32,17 @@ public class TaskManager {
         return new ArrayList<>(subtasks.values());
     }
 
-    public void tasksRemoveById(int id) {
+    public void removeTaskById(int id) {
         tasks.remove(id);
     }
 
-    public void subtasksRemoveById(int id) {
+    public void removeSubtaskById(int id) {
         epics.get(subtasks.get(id).getEpic().getSubtasks().remove(subtasks.get(id)));
         updateEpicStatus(subtasks.get(id).getEpic());
         subtasks.remove(id);
     }
 
-    public void epicsRemoveById(int id) {
+    public void removeEpicById(int id) {
         epics.remove(id);
     }
 
@@ -62,7 +62,7 @@ public class TaskManager {
         return subtasks.get(id);
     }
 
-    public ArrayList<Subtask> epicSubtaskList(int epicId) {
+    public ArrayList<Subtask> getEpicSubtasksList(int epicId) {
         return epics.get(epicId).getSubtasks();
     }
 
@@ -99,6 +99,7 @@ public class TaskManager {
         saved.setDescription(epic.getDescription());
         saved.setStatus(epic.getStatus());
         epics.put(saved.getId(), saved);
+        updateEpicStatus(epic);
     }
 
     public void updateSubtask(Subtask subtask) {
@@ -112,22 +113,7 @@ public class TaskManager {
         subtasks.put(saved.getId(), saved);
     }
 
-    public void removeSubtask(Subtask subtask) {
-        subtasks.remove(subtask);
-        subtask.getEpic().getSubtasks().remove(subtask);
-        updateEpicStatus(subtask.getEpic());
-    }
-
-    public void removeTask(Task task) {
-        tasks.remove(task);
-    }
-
-    public void removeEpic(Epic epic) {
-        epics.remove(epic);
-        updateEpic(epic);
-    }
-
-    public void updateEpicStatus(Epic epic) {
+    private void updateEpicStatus(Epic epic) {
         int statusProgress = 0;
         int statusDone = 0;
         int statusNew = 0;
@@ -142,7 +128,7 @@ public class TaskManager {
         }
         if (statusProgress == 0 && statusDone > 0 && statusNew == 0) {
             epic.setStatus(TaskStatus.DONE);
-        } else if (statusProgress > 0 && statusNew > 0 && statusDone >= 0) {
+        } else if (statusProgress >= 0 && statusNew > 0 && statusDone >= 0) {
             epic.setStatus(TaskStatus.IN_PROGRESS);
         } else {
             epic.setStatus(TaskStatus.NEW);

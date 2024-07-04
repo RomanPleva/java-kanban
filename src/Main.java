@@ -22,36 +22,19 @@ public class Main {
                 TaskStatus.DONE, epic2);
         taskManager.createSubtask(subtask3);
 
-        System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getTasks());
+        System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getSubtasks());
 
         subtask.setStatus(TaskStatus.DONE);
         subtask2.setStatus(TaskStatus.DONE);
-        taskManager.updateEpicStatus(epic);
 
-        System.out.println(epic);
-
-        taskManager.removeTask(task);
-        taskManager.removeEpic(epic);
+        taskManager.updateEpic(epic);
 
         System.out.println(taskManager.getEpics());
 
-        System.out.println(taskManager.getSubtasks());
-        taskManager.subtasksRemoveById(5);
-        taskManager.subtasksRemoveById(4);
+        taskManager.removeSubtaskById(4);
 
-        Subtask subtask4 = new Subtask("Имя подзадачи4", "Описание4",
-                TaskStatus.NEW, epic);
-        taskManager.createSubtask(subtask4);
-
-        System.out.println(taskManager.getSubtasks());
-        System.out.println(epic.getSubtasks());
-        System.out.println(epic2.getSubtasks());
-
-        taskManager.updateEpicStatus(epic);
-
-        System.out.println(taskManager.getEpics());
-        System.out.println(epic.getSubtasks());
+        System.out.println(taskManager.getEpicSubtasksList(3));
     }
 }
