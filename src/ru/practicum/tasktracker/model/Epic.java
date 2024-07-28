@@ -1,15 +1,16 @@
 package ru.practicum.tasktracker.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
-    ArrayList<Subtask> subtasks = new ArrayList<>();
+    private final List<Subtask> subtasks = new ArrayList<>();
 
     public Epic(String name, String description) {
-        super(name, description, null);
+        super(name, description, TaskStatus.NEW);
     }
 
-    public ArrayList<Subtask> getSubtasks() {
+    public List<Subtask> getSubtasks() {
         return subtasks;
     }
 }

@@ -1,3 +1,5 @@
+package ru.practicum.tasktracker;
+
 import ru.practicum.tasktracker.model.Epic;
 import ru.practicum.tasktracker.model.TaskStatus;
 import ru.practicum.tasktracker.model.Subtask;
@@ -59,5 +61,10 @@ public class Main {
         task.setName("Новое имя");
         System.out.println(task.getName());
         System.out.println(taskManager.getTasks());
+        System.out.println("=====");
+        System.out.println("проверка на возврат списка истории");
+        taskManager.getTaskById(1);
+        taskManager.getTaskById(2);
+        System.out.println(taskManager.getHistory());
     }
 }

@@ -6,14 +6,15 @@ import ru.practicum.tasktracker.model.TaskStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    final HashMap<Integer, Epic> epics;
-    final HashMap<Integer, Task> tasks;
-    final HashMap<Integer, Subtask> subtasks;
+    private final Map<Integer, Epic> epics;
+    private final Map<Integer, Task> tasks;
+    private final Map<Integer, Subtask> subtasks;
 
-    final HistoryManager historyManager;
+    private final HistoryManager historyManager;
     int serialN;
 
     public InMemoryTaskManager(HistoryManager historyManager){
@@ -57,34 +58,42 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeEpicById(int id) {
+        Epic epic = epics.get(id);
+        for (Subtask subtaskToDelete : subtasks.values()) {
+            if (subtaskToDelete.getEpic().getId() == epic.getId()) {
+                subtasks.remove(subtaskToDelete);
+            }
+        }
         epics.remove(id);
     }
 
-    @Override
-    public int generateId() {
+    private int generateId() {
         return ++serialN;
     }
 
     @Override
     public Task getTaskById(int id) {
-        historyManager.add(tasks.get(id));
-        return tasks.get(id);
+        final Task task = tasks.get(id);
+        historyManager.add(task);
+        return task;
     }
 
     @Override
     public Epic getEpicById(int id) {
-        historyManager.add(epics.get(id));
-        return epics.get(id);
+        final Epic epic = epics.get(id);
+        historyManager.add(epic);
+        return epic;
     }
 
     @Override
     public Subtask getSubtaskById(int id) {
-        historyManager.add(subtasks.get(id));
-        return subtasks.get(id);
+        final Subtask subtask = subtasks.get(id);
+        historyManager.add(subtask);
+        return subtask;
     }
 
     @Override
-    public ArrayList<Subtask> getEpicSubtasksList(int epicId) {
+    public List<Subtask> getEpicSubtasksList(int epicId) {
         return epics.get(epicId).getSubtasks();
     }
 
@@ -98,7 +107,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic createEpic(Epic epic) {
         epic.setId(generateId());
-        epic.setStatus(TaskStatus.NEW);
         epics.put(epic.getId(), epic);
         return epic;
     }
@@ -130,9 +138,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         saved.setName(epic.getName());
         saved.setDescription(epic.getDescription());
-        saved.setStatus(epic.getStatus());
         epics.put(saved.getId(), saved);
-        updateEpicStatus(epic);
         return epic;
     }
 
@@ -149,30 +155,26 @@ public class InMemoryTaskManager implements TaskManager {
         return subtask;
     }
 
-    @Override
-    public void updateEpicStatus(Epic epic) {
-        int statusProgress = 0;
+    private void updateEpicStatus(Epic epic) {
         int statusDone = 0;
         int statusNew = 0;
-        if (epic.getSubtasks() != null) {
-            for (Subtask subStatus : epic.getSubtasks() ) {
+            for (Subtask subStatus : epic.getSubtasks()) {
                 if (subStatus.getStatus() == TaskStatus.DONE) {
                     statusDone++;
                 } else if (subStatus.getStatus() == TaskStatus.IN_PROGRESS) {
-                    statusProgress++;
+                    epic.setStatus(TaskStatus.IN_PROGRESS);
                 } else if (subStatus.getStatus() == TaskStatus.NEW) {
                     statusNew++;
                 }
             }
-            if (statusProgress == 0 && statusDone > 0 && statusNew == 0) {
+            if (statusDone > 0 && statusNew == 0) {
                 epic.setStatus(TaskStatus.DONE);
-            } else if (statusProgress > 0 && statusNew > 0 && statusDone > 0) {
+            } else if (statusNew > 0 && statusDone > 0) {
                 epic.setStatus(TaskStatus.IN_PROGRESS);
-            } else if (statusProgress > 0 && statusNew >= 0 && statusDone >= 0) {
+            } else if (statusNew >= 0 && statusDone > 0) {
                 epic.setStatus(TaskStatus.IN_PROGRESS);
             } else {
                 epic.setStatus(TaskStatus.NEW);
             }
-        }
     }
 }

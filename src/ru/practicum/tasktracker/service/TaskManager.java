@@ -4,7 +4,6 @@ import ru.practicum.tasktracker.model.Epic;
 import ru.practicum.tasktracker.model.Subtask;
 import ru.practicum.tasktracker.model.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
@@ -22,15 +21,13 @@ public interface TaskManager {
 
     void removeEpicById(int id);
 
-    int generateId();
-
     Task getTaskById(int id);
 
     Epic getEpicById(int id);
 
     Subtask getSubtaskById(int id);
 
-    ArrayList<Subtask> getEpicSubtasksList(int epicId);
+    List<Subtask> getEpicSubtasksList(int epicId);
 
     Task createTask(Task task);
 
@@ -43,6 +40,4 @@ public interface TaskManager {
     Epic updateEpic(Epic epic);
 
     Subtask updateSubtask(Subtask subtask);
-
-    void updateEpicStatus(Epic epic);
 }
