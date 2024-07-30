@@ -7,7 +7,7 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private final List<Task> history = new LinkedList<>();
-    private final int MAX_HISTORY_SIZE = 10;
+    private static final int MAX_HISTORY_SIZE = 10;
 
     @Override
     public void add(Task task) {
@@ -22,6 +22,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return history;
+        return List.copyOf(history);
     }
 }

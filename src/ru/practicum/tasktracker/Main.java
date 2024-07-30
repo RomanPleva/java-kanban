@@ -51,7 +51,7 @@ public class Main {
 
         System.out.println(taskManager.getEpics());
 
-        taskManager.removeSubtaskById(4);
+
 
         System.out.println(taskManager.getEpicSubtasksList(3));
 
@@ -62,9 +62,13 @@ public class Main {
         System.out.println(task.getName());
         System.out.println(taskManager.getTasks());
         System.out.println("=====");
-        System.out.println("проверка на возврат списка истории");
+        System.out.println("Проверка на возврат списка истории");
         taskManager.getTaskById(1);
         taskManager.getTaskById(2);
         System.out.println(taskManager.getHistory());
+        System.out.println("=====");
+        System.out.println("Проверка удаления субтаска после удаления эпика");
+        taskManager.removeEpicById(3);
+        System.out.println(taskManager.getSubtasks());
     }
 }
