@@ -13,6 +13,13 @@ public class Task {
         this.status = status;
     }
 
+    public Task (String name, String description, TaskStatus status, int id) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.id = id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
