@@ -7,13 +7,13 @@ public class Task {
     protected TaskStatus status;
     protected int id;
 
-    public Task (String name, String description, TaskStatus status) {
+    public Task(String name, String description, TaskStatus status) {
         this.name = name;
         this.description = description;
         this.status = status;
     }
 
-    public Task (String name, String description, TaskStatus status, int id) {
+    public Task(String name, String description, TaskStatus status, int id) {
         this.name = name;
         this.description = description;
         this.status = status;
