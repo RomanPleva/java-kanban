@@ -17,7 +17,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final HistoryManager historyManager;
     private int serialN;
 
-    public InMemoryTaskManager(HistoryManager historyManager){
+    public InMemoryTaskManager(HistoryManager historyManager) {
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
         this.subtasks = new HashMap<>();
